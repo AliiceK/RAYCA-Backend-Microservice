@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { validationResult } = require('express-validator');
+
 
 
 
@@ -11,6 +13,11 @@ const generateToken = (id, role) => {
 }
 
 const registerUser = async ( req, res ) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
 
     const {name, email, password, role} = req.body;
 
@@ -24,7 +31,7 @@ const registerUser = async ( req, res ) => {
     const salt = await bcrypt.genSalt(10);
     const hashedpassword = await bcrypt.hash(password, salt);
 
-    const newUser = User.create({name, email, password: hashedpassword, role});
+    const newUser = await User.create({name, email, password: hashedpassword, role});
 
     if (newUser) {
         res.status(201).json({token: generateToken(newUser._id, newUser.role)});
