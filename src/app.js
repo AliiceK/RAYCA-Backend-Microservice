@@ -13,6 +13,10 @@ connectDatabase();
 const app = express();
 
 app.use(cors());
+app.use(cors({
+    origin: ["https://rayca-backend-microservice-git-main-alice-ks-projects.vercel.app", "http://localhost:3000"]
+}));
+
 
 
 app.use("/swagger-ui", express.static(path.join(__dirname, "../node_modules/swagger-ui-dist")));
