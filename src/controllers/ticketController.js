@@ -67,7 +67,7 @@ const updateTicket = async (req, res, next) => {
         }
 
         const emailMessage = `Ticket '${ticket.title}' status has been updated to '${status}'.`;
-        await sendEmail("assigned_user@example.com", "Ticket Status Update", emailMessage);
+        await sendEmail("alicekaradjian@gmail.com", "Ticket Status Update", emailMessage);
 
         res.json(ticket);
     } catch (error) {
